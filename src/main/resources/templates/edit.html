@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit</title>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+<div th:replace="fragments/header :: header"/>
+
+<div class="tab-content">
+    <div class="tab-pane active" id="compose">
+        <div class="container">
+            <div class="content-container clearfix">
+
+                <div class="row">
+                    <h1 class="content-title">Edit Task</h1>
+
+                    <div th:if="${msg eq 'success'}" class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert"
+                                aria-hidden="true">&times;
+                        </button>
+                        <strong>Success </strong> Task updated
+                    </div>
+                    <div th:if="${msg eq 'same'}" class="alert alert-warning alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert"
+                                aria-hidden="true">&times;
+                        </button>
+                        <strong>Warning !!! </strong> Please update at least one filed
+                    </div>
+                    <div th:if="${msg eq 'fail'}" class="alert alert-danger alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert"
+                                aria-hidden="true">&times;
+                        </button>
+                        <strong>Error !!!  </strong> Unexpected error occurred. Please try later.
+                    </div>
+
+                    <!--/*@thymesVar id="todoForm" type="java"*/-->
+                    <form th:object="${editTask}" th:action="@{/task/editTask}" method="post">
+                        <input type="hidden" th:field="*{id}" th:value="*{id}"/>
+                        <input type="hidden" th:field="*{userId}" th:value="*{userId}"/>
+                        <input type="hidden" th:field="*{status}" th:value="*{status}"/>
+                        <input type="hidden" th:field="*{createDate}" th:value="*{createDate}"/>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input id="todoName2" th:field="*{taskName}"
+                                       type="text" class="form-control"
+                                       required="required"
+                                       placeholder="Task Name"/>
+                            </div>
+
+                            <div class="form-group">
+                                <input th:field="*{description}" type="text" class="form-control"
+                                       required="required"
+                                       placeholder="Description"/>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4  input-group date" id='startDatePicker'>
+                                    <input th:field="*{taskDate}" class="form-control" name="taskDate"
+                                           required="required" placeholder="Task Date" id="taskDate"/>
+                                    <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar">
+                                    </span>
+                                </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" th:field="*{content}" placeholder="Details"
+                                          required="required"></textarea>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="modal-footer">
+                            <div>
+                                <button class="btn btn-success btn-md"><span class="glyphicon glyphicon-send"></span>
+                                    Update
+                                </button>
+                            </div>
+                            <br/>
+                            <div>
+                                <a th:href="@{/home}" class="fa fa-arrow-left pull-right"> Back</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <span class="help-block"></span>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<footer>
+    <div class="separator" th:replace="fragments/footer :: footer">&copy; 2016 pironix</div>
+</footer>
+
+
+<script type="text/javascript">
+    $(function () {
+        $('#startDatePicker').datetimepicker({
+            viewMode: 'days',
+            format: 'DD/MM/YYYY'
+        });
+    });
+</script>
+</body>
+</html>

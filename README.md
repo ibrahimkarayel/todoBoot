@@ -56,7 +56,7 @@ Run Application
 `spring.thymeleaf.cache: false`  ->  intellij idea press CTRL + f9
 
 #### Watch Courses
-[![openshift-resume](https://img.youtube.com/vi/IgbhfRv4ZyQ/0.jpg)](https://youtu.be/IgbhfRv4ZyQ)
+[![course video](https://img.youtube.com/vi/st1vYDZf4H8/0.jpg)](https://youtu.be/IgbhfRv4ZyQ)
 
 
 [ibrahim karayel](https://www.linkedin.com/in/ibrahimkarayel/)

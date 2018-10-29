@@ -1,4 +1,4 @@
 *.* linguist-language=Java
 *.* linguist-vendored=Java
 
-*.js linguist-vendored=true
+*.java linguist-vendored=true

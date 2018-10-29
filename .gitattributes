@@ -1,4 +1,3 @@
-*.* linguist-language=Java
-*.* linguist-vendored=Java
-
-*.java linguist-vendored=true
+$ cat .gitattributes
+*.js linguist-language=Java
+*.js linguist-vendored=Java

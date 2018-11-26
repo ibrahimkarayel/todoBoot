@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+    <meta name="description" content="spring-boot thymeleaf | home ">
+    <div th:replace="fragments/header :: header-css"></div>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<div class="tab-content">
+
+    <div class="tab-pane active" id="addTaskTab">
+        <div class="container">
+            <div class="content-container clearfix">
+                <div class="row">
+                    <h1 class="content-title">Users</h1>
+
+                    <span class="help-block"></span>
+                    <!--start Trash Task tab-->
+                    <div class="row">
+                        <div class="panel panel-info">
+                            <div class="panel-body">
+                                <table class="table table-bordered  table-striped table-responsive">
+                                    <thead>
+                                    <tr class="btn-info">
+                                        <th>ID</th>
+                                        <th>User Name</th>
+                                        <th>Email</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:if="${#lists.isEmpty(userList)}" class="btn-default">
+                                        <td colspan="5" align="center">No User exist Yet!!!</td>
+                                    </tr>
+                                    <tr th:each="user : ${userList}">
+                                        <td th:text="${user.id}"></td>
+                                        <td th:text="${user.username}"></td>
+                                        <td th:text="${user.email}"></td>
+                                        <td align="center">
+                                            <a th:href="@{/user/edit/{id}(id=${user.id})}">
+                                            <span class="glyphicon glyphicon-edit" data-toggle="tooltip"
+                                                  data-placement="top" title="Edit Task"></span></a>
+                                            &nbsp; &nbsp;
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!--end Trash task tab-->
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <footer>
+        <div class="separator" th:replace="fragments/footer :: footer">&copy; 2016 pironix</div>
+    </footer>
+</div>
+</body>
+</html>

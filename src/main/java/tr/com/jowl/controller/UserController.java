@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -16,6 +17,9 @@ import tr.com.jowl.service.UserService;
 import tr.com.jowl.utils.PassEncoding;
 import tr.com.jowl.utils.Roles;
 import tr.com.jowl.utils.Status;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * The UserController  Class
@@ -54,12 +58,21 @@ public class UserController {
 
     @RequestMapping("/home")
     public String home(Model model) {
-        Task task =new Task();
+        Task task = new Task();
         model.addAttribute("reqTask", task);
         model.addAttribute("allTask", taskService.findByUserIdStatus(globalController.getLoginUser().getId(), Status.ACTIVE.getValue()));
+        model.addAttribute("allUser", userService.findAll());
         model.addAttribute("allPassiveTask", taskService.findByUserIdStatus(globalController.getLoginUser().getId(), Status.PASSIVE.getValue()));
         logger.info("home");
         return "home";
+    }
+
+    @RequestMapping("/user")
+    public String user(Model model) {
+        List<User> userList = (List<User>) userService.findAll();
+        model.addAttribute("userList", userList);
+        logger.info("user count {}", userList.size());
+        return "user";
     }
 
     @RequestMapping("/admin")
@@ -101,6 +114,42 @@ public class UserController {
         }
 
         return "redirect:/register";
+    }
+
+
+    @RequestMapping(value = "/user/edit/{id}", method = RequestMethod.GET)
+    public String todoOperation(@PathVariable("id") int id, final RedirectAttributes redirectAttributes,
+                                Model model) {
+
+        logger.info("/user/operation: edit ");
+
+        User user = userService.findById(id);
+        if (user != null) {
+            model.addAttribute("editUser", user);
+        } else {
+            redirectAttributes.addFlashAttribute("msg", "notfound");
+        }
+        return "edit-user";
+    }
+
+    @RequestMapping(value = {"/home/editUser"}, method = RequestMethod.POST)
+    public String home(@ModelAttribute("editUser") User editUser, Model model) {
+        logger.info("/home/editUser");
+        try {
+            User user = userService.findById(editUser.getId());
+            if (!user.equals(editUser)) {
+                editUser.setPassword(PassEncoding.getInstance().passwordEncoder.encode(editUser.getPassword()));
+                userService.update(editUser);
+                model.addAttribute("msg", "success");
+            } else {
+                model.addAttribute("msg", "same");
+            }
+        } catch (Exception e) {
+            model.addAttribute("msg", "fail");
+            logger.error("editUser: " + e.getMessage());
+        }
+        model.addAttribute("home", editUser);
+        return "home";
     }
 
 
